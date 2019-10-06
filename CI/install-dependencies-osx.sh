@@ -11,9 +11,7 @@ set -e
 set -v
 
 if [[ $TRAVIS ]]; then
-  git fetch --unshallow
-else
-  /bin/bash -c "sudo xcode-select -s /Applications/Xcode_9.4.1.app/Contents/Developer"
+  git fetch --unshallowss
 fi
 
 # Leave obs-studio folder
