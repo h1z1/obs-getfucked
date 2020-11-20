@@ -65,7 +65,6 @@ else()
 endif()
 
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/obs-vst/CMakeLists.txt")
-	add_subdirectory(obs-vst)
 else()
 	message(STATUS "obs-vst submodule not found!  Please fetch/update submodules.  obs-vst plugin disabled.")
 endif()
