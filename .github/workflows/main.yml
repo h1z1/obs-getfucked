@@ -6,6 +6,7 @@ on:
       - '**.md'
     branches:
       - master
+      - cef4183
     tags:
       - '*'
   pull_request:
@@ -15,7 +16,7 @@ on:
       - master
 
 env:
-  CEF_BUILD_VERSION: '3770'
+  CEF_BUILD_VERSION: '4183'
   CEF_VERSION: '75.1.16+g16a67c4+chromium-75.0.3770.100'
 
 jobs:
@@ -62,6 +63,7 @@ jobs:
               brew uninstall python@2.7.17
               brew untap local/python2
           fi
+          brew uninstall curl php
           brew bundle --file ./CI/scripts/macos/Brewfile
       - name: 'Restore Chromium Embedded Framework from cache'
         id: cef-cache
