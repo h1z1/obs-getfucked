@@ -1,5 +1,7 @@
 #include "youtube-api-wrappers.hpp"
 
+#include <QUrl>
+
 #include <string>
 #include <iostream>
 
@@ -82,8 +84,8 @@ bool YoutubeApiWrappers::UpdateAccessToken()
 	deobfuscate_str(&clientid[0], YOUTUBE_CLIENTID_HASH);
 	deobfuscate_str(&secret[0], YOUTUBE_SECRET_HASH);
 
-	const QString encoded_refresh_token =
-		ReplaceAll(QString(refresh_token.c_str()), '/', "%2F");
+	std::string r_token =
+		QUrl::toPercentEncoding(refresh_token.c_str()).toStdString();
 	const QString url = YOUTUBE_LIVE_TOKEN_URL;
 	const QString data_template = "client_id=%1"
 				      "&client_secret=%2"
@@ -91,7 +93,7 @@ bool YoutubeApiWrappers::UpdateAccessToken()
 				      "&grant_type=refresh_token";
 	const QString data = data_template.arg(QString(clientid.c_str()),
 					       QString(secret.c_str()),
-					       encoded_refresh_token);
+					       QString(r_token.c_str()));
 	Json json_out;
 	bool success = TryInsertCommand(QT_TO_UTF8(url),
 					"application/x-www-form-urlencoded", "",

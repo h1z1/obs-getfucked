@@ -12,8 +12,6 @@ const std::vector<Auth::Def> youtubeServices = {
 	{"YouTube - RTMPS", Auth::Type::OAuth_LinkedAccount, true},
 	{"YouTube - HLS", Auth::Type::OAuth_LinkedAccount, true}};
 
-const QString ReplaceAll(QString str, QChar ch, const QString &to);
-
 class YoutubeAuth : public OAuthStreamKey {
 	Q_OBJECT
 

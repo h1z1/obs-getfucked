@@ -4,7 +4,9 @@
 #include <QMessageBox>
 #include <QThread>
 #include <vector>
+#include <QDesktopServices>
 #include <QHBoxLayout>
+#include <QUrl>
 
 #ifdef WIN32
 #include <windows.h>
@@ -35,32 +37,10 @@ static const char allowedChars[] =
 static const int allowedCount = static_cast<int>(sizeof(allowedChars) - 1);
 /* ------------------------------------------------------------------------- */
 
-const QString ReplaceAll(QString str, const QChar ch, const QString &to)
+static inline void OpenBrowser(const QString auth_uri)
 {
-	int start_pos = 0;
-	while ((start_pos = str.indexOf(ch, start_pos)) != std::string::npos) {
-		str.replace(start_pos, 1, to);
-		start_pos += to.length();
-	}
-	return str;
-};
-
-static void OpenBrowser(const QString auth_uri)
-{
-	QString encoded_auth_uri = ReplaceAll(auth_uri, '"', "%22");
-#if defined(_WIN32) && !defined(__cplusplus_winrt)
-	// Windows desktop only.
-	ShellExecuteA(NULL, "open", QT_TO_UTF8(encoded_auth_uri), NULL, NULL,
-		      SW_SHOWNORMAL);
-#elif defined(__APPLE__)
-	// OS X only.
-	QString browser_cmd(("open \"") + encoded_auth_uri + ("\""));
-	(void)system(QT_TO_UTF8(browser_cmd));
-#else
-	// GNU/Linux only.
-	QString browser_cmd(("xdg-open \"") + encoded_auth_uri + ("\""));
-	(void)system(QT_TO_UTF8(browser_cmd));
-#endif
+	QUrl url(auth_uri, QUrl::StrictMode);
+	QDesktopServices::openUrl(url);
 }
 
 void RegisterYoutubeAuth()
